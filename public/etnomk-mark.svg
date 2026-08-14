@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <path d="M50.00 41.00 L43.06 23.91 L50.00 4.00 L56.94 23.91 Z" fill="var(--color-primary, #7A1E2B)" />
+  <path d="M56.36 43.64 L63.54 26.64 L82.53 17.47 L73.36 36.46 Z" fill="var(--color-primary, #7A1E2B)" />
+  <path d="M59.00 50.00 L76.09 43.06 L96.00 50.00 L76.09 56.94 Z" fill="var(--color-primary, #7A1E2B)" />
+  <path d="M56.36 56.36 L73.36 63.54 L82.53 82.53 L63.54 73.36 Z" fill="var(--color-primary, #7A1E2B)" />
+  <path d="M50.00 59.00 L56.94 76.09 L50.00 96.00 L43.06 76.09 Z" fill="var(--color-primary, #7A1E2B)" />
+  <path d="M43.64 56.36 L36.46 73.36 L17.47 82.53 L26.64 63.54 Z" fill="var(--color-primary, #7A1E2B)" />
+  <path d="M41.00 50.00 L23.91 56.94 L4.00 50.00 L23.91 43.06 Z" fill="var(--color-primary, #7A1E2B)" />
+  <path d="M43.64 43.64 L26.64 36.46 L17.47 17.47 L36.46 26.64 Z" fill="var(--color-primary, #7A1E2B)" />
+  <circle cx="50" cy="50" r="9" fill="var(--color-gold, #B8862E)" />
+</svg>
+

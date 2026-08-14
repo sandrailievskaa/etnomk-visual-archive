@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { MotifStrip } from "./Ornament";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { Logo } from "./Logo";
 import { useI18n } from "@/lib/i18n/context";
 import type { TranslationKey } from "@/lib/i18n/dictionary";
 
@@ -39,30 +40,24 @@ export function SiteHeader() {
         }`}
       >
         <div className="container-etno flex h-16 items-center justify-between gap-6 lg:h-20">
-          <Link to="/" className="flex items-center gap-3">
-            <span
-              aria-hidden
-              className="grid size-9 place-items-center rounded-sm bg-primary text-[13px] font-semibold tracking-[0.05em] text-primary-foreground"
-            >
-              EM
-            </span>
-            <span className="font-serif text-xl font-semibold tracking-tight text-ink">
+          <Link to="/" className="flex shrink-0 items-center gap-3">
+            <Logo className="size-9" />
+            <span className="flex items-baseline whitespace-nowrap font-serif text-xl font-semibold tracking-tight text-ink">
               EtnoMK
-              <span className="ml-2 hidden text-[13px] font-normal tracking-[0.05em] text-ink-muted uppercase sm:inline">
+              <span className="ml-2 hidden text-[11px] font-normal tracking-[0.03em] text-ink-muted uppercase xl:inline">
                 {t("nav.tagline")}
               </span>
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-8 lg:flex">
+          <nav className="hidden items-center gap-6 lg:flex">
             {NAV.map((item) => {
-              const active =
-                item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
+              const active = item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
               return (
                 <Link
                   key={item.to}
                   to={item.to}
-                  className="group relative py-2 text-[15px] text-ink-muted transition-colors duration-150 ease-out hover:text-ink"
+                  className="group relative shrink-0 py-2 text-[15px] whitespace-nowrap text-ink-muted transition-colors duration-150 ease-out hover:text-ink"
                 >
                   <span className={active ? "font-medium text-ink" : ""}>{t(item.label)}</span>
                   <span
@@ -76,7 +71,7 @@ export function SiteHeader() {
             })}
           </nav>
 
-          <div className="hidden items-center gap-6 lg:flex">
+          <div className="hidden items-center gap-5 lg:flex">
             <LanguageSwitcher />
             <Link
               to="/auth"
