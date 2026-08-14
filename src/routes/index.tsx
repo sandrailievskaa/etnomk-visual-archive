@@ -6,6 +6,7 @@ import { RecordCard } from "@/components/RecordCard";
 import { MotifDivider } from "@/components/Ornament";
 import { EmbroideryLoop } from "@/components/EmbroideryLoop";
 import { EmbroideryShowcase } from "@/components/EmbroideryShowcase";
+import { VideoCarousel } from "@/components/VideoCarousel";
 import { useI18n } from "@/lib/i18n/context";
 
 export const Route = createFileRoute("/")({
@@ -130,6 +131,14 @@ function Home() {
             <RecordCard key={record.id} record={record} />
           ))}
         </div>
+      </section>
+
+      <section className="container-etno pb-16 lg:pb-24">
+        <p className="label-caps">{t("home.videoEyebrow")}</p>
+        <h2 className="mt-3 font-serif text-[28px] text-ink lg:text-[32px]">
+          {t("home.videoTitle")}
+        </h2>
+        <VideoCarousel className="mt-8" />
       </section>
     </>
   );
