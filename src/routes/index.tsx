@@ -37,9 +37,9 @@ function Home() {
           aria-hidden
           width={1920}
           height={1088}
-          className="absolute inset-0 size-full object-cover object-left"
+          className="absolute inset-0 size-full scale-x-[-1] object-cover object-left"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/10 via-background/70 to-background" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/92 to-background/25" />
         <div className="container-etno relative grid gap-16 py-16 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:py-24">
           <div className="stitch-in max-w-xl">
             <p className="label-caps">Digital heritage archive · North Macedonia</p>
