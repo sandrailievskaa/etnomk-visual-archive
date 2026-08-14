@@ -9,3 +9,9 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   en: "English",
   sq: "Shqip",
 };
+
+export const LOCALE_FLAGS: Record<Locale, string> = {
+  mk: "🇲🇰",
+  en: "🇬🇧",
+  sq: "🇦🇱",
+};
