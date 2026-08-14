@@ -111,6 +111,8 @@ function Home() {
 
       <MotifDivider className="container-etno" />
 
+      <VideoCarousel />
+
       <section className="container-etno py-16 lg:py-24">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
@@ -131,14 +133,6 @@ function Home() {
             <RecordCard key={record.id} record={record} />
           ))}
         </div>
-      </section>
-
-      <section className="container-etno pb-16 lg:pb-24">
-        <p className="label-caps">{t("home.videoEyebrow")}</p>
-        <h2 className="mt-3 font-serif text-[28px] text-ink lg:text-[32px]">
-          {t("home.videoTitle")}
-        </h2>
-        <VideoCarousel className="mt-8" />
       </section>
     </>
   );

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Pause, Play } from "lucide-react";
 import { useI18n } from "@/lib/i18n/context";
 import type { TranslationKey } from "@/lib/i18n/dictionary";
 
@@ -34,46 +34,23 @@ const SLIDES: Slide[] = [
 const AUTO_ADVANCE_MS = 7000;
 const TOTAL = SLIDES.length;
 
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const query = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(query.matches);
-    const onChange = () => setReduced(query.matches);
-    query.addEventListener("change", onChange);
-    return () => query.removeEventListener("change", onChange);
-  }, []);
-  return reduced;
-}
-
 export function VideoCarousel({ className = "" }: { className?: string }) {
   const { t } = useI18n();
-  const reducedMotion = usePrefersReducedMotion();
   const [active, setActive] = useState(0);
-  const [playing, setPlaying] = useState(!reducedMotion);
   const [autoAdvance, setAutoAdvance] = useState(true);
-  const activeVideoRef = useRef<HTMLVideoElement>(null);
 
   const goTo = (index: number) => setActive(((index % TOTAL) + TOTAL) % TOTAL);
 
-  // Reduced-motion visitors get a poster + manual play button, never autoplay.
+  // Self-rotating; always pausable via the control at the bottom.
   useEffect(() => {
-    setPlaying(!reducedMotion);
-  }, [active, reducedMotion]);
-
-  // Auto-advance is off for reduced-motion users and fully pausable otherwise.
-  useEffect(() => {
-    if (reducedMotion || !autoAdvance) return;
+    if (!autoAdvance) return;
     const timer = setInterval(() => setActive((a) => (a + 1) % TOTAL), AUTO_ADVANCE_MS);
     return () => clearInterval(timer);
-  }, [reducedMotion, autoAdvance]);
+  }, [autoAdvance]);
 
   return (
-    <section
-      aria-label={t("home.videoTitle")}
-      className={`overflow-hidden rounded-xl border border-border bg-surface shadow-frame ${className}`}
-    >
-      <div className="relative aspect-video w-full bg-ink">
+    <section aria-label={t("home.videoTitle")} className={`bg-ink ${className}`}>
+      <div className="relative aspect-video w-full">
         {SLIDES.map((slide, index) => {
           const isActive = index === active;
           // Only the active slide and the one it might advance to are ever
@@ -91,14 +68,13 @@ export function VideoCarousel({ className = "" }: { className?: string }) {
             >
               {shouldLoad ? (
                 <video
-                  ref={isActive ? activeVideoRef : null}
                   className="size-full object-cover"
                   poster={slide.poster}
+                  autoPlay={isActive}
                   muted
                   loop
                   playsInline
                   preload={isActive ? "auto" : "metadata"}
-                  autoPlay={isActive && playing}
                   aria-label={t(slide.labelKey)}
                 >
                   <source src={slide.video} type="video/mp4" />
@@ -111,73 +87,38 @@ export function VideoCarousel({ className = "" }: { className?: string }) {
                   className="size-full object-cover"
                 />
               )}
-
-              {isActive && reducedMotion && !playing && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setPlaying(true);
-                    activeVideoRef.current?.play();
-                  }}
-                  aria-label={t("home.videoPlay")}
-                  className="absolute inset-0 grid place-items-center bg-[rgba(43,24,16,0.35)] transition-colors duration-150 ease-out hover:bg-[rgba(43,24,16,0.45)]"
-                >
-                  <span className="grid size-16 place-items-center rounded-full bg-surface/90 text-primary shadow-panel">
-                    <Play className="size-6 translate-x-0.5" fill="currentColor" />
-                  </span>
-                </button>
-              )}
             </div>
           );
         })}
 
-        <button
-          type="button"
-          onClick={() => goTo(active - 1)}
-          aria-label={t("home.videoPrev")}
-          className="absolute top-1/2 left-4 grid size-11 -translate-y-1/2 place-items-center rounded-sm border border-border bg-surface/90 text-ink shadow-card backdrop-blur-sm transition-colors duration-150 ease-out hover:bg-surface-alt"
-        >
-          <ChevronLeft className="size-5" />
-        </button>
-        <button
-          type="button"
-          onClick={() => goTo(active + 1)}
-          aria-label={t("home.videoNext")}
-          className="absolute top-1/2 right-4 grid size-11 -translate-y-1/2 place-items-center rounded-sm border border-border bg-surface/90 text-ink shadow-card backdrop-blur-sm transition-colors duration-150 ease-out hover:bg-surface-alt"
-        >
-          <ChevronRight className="size-5" />
-        </button>
-      </div>
-
-      <div className="flex items-center justify-center gap-6 border-t border-border bg-surface-alt px-6 py-4">
-        <div className="flex items-center gap-2">
-          {SLIDES.map((slide, index) => (
-            <button
-              key={slide.id}
-              type="button"
-              onClick={() => goTo(index)}
-              aria-label={t("home.videoGoToSlide", { index: index + 1 })}
-              aria-current={index === active}
-              className="grid size-11 place-items-center"
-            >
-              <span
-                className={`block rounded-full transition-all duration-200 ease-out ${
-                  index === active ? "size-2.5 bg-gold" : "size-2 bg-ink/20 hover:bg-ink/40"
-                }`}
-              />
-            </button>
-          ))}
-        </div>
-        {!reducedMotion && (
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-6 bg-gradient-to-t from-[rgba(43,24,16,0.55)] to-transparent px-6 py-5">
+          <div className="flex items-center gap-2">
+            {SLIDES.map((slide, index) => (
+              <button
+                key={slide.id}
+                type="button"
+                onClick={() => goTo(index)}
+                aria-label={t("home.videoGoToSlide", { index: index + 1 })}
+                aria-current={index === active}
+                className="grid size-8 place-items-center"
+              >
+                <span
+                  className={`block rounded-full transition-all duration-200 ease-out ${
+                    index === active ? "size-2.5 bg-gold" : "size-2 bg-white/50 hover:bg-white/80"
+                  }`}
+                />
+              </button>
+            ))}
+          </div>
           <button
             type="button"
             onClick={() => setAutoAdvance((value) => !value)}
             aria-label={t(autoAdvance ? "home.videoPause" : "home.videoPlay")}
-            className="grid size-11 place-items-center rounded-sm text-ink-muted transition-colors duration-150 ease-out hover:bg-surface hover:text-ink"
+            className="grid size-8 place-items-center rounded-full text-white/80 transition-colors duration-150 ease-out hover:text-white"
           >
             {autoAdvance ? <Pause className="size-4" /> : <Play className="size-4" />}
           </button>
-        )}
+        </div>
       </div>
     </section>
   );
