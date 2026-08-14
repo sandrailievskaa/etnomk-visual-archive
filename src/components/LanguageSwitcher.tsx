@@ -1,4 +1,4 @@
-import { LOCALE_FLAGS, LOCALE_NAMES, LOCALES } from "@/lib/i18n/locale";
+import { LOCALE_FLAG_URLS, LOCALE_NAMES, LOCALES } from "@/lib/i18n/locale";
 import { useI18n } from "@/lib/i18n/context";
 
 export function LanguageSwitcher({ className = "" }: { className?: string }) {
@@ -18,11 +18,16 @@ export function LanguageSwitcher({ className = "" }: { className?: string }) {
           aria-pressed={locale === code}
           aria-label={LOCALE_NAMES[code]}
           title={LOCALE_NAMES[code]}
-          className={`grid min-h-11 min-w-11 place-items-center rounded-sm text-lg leading-none transition-colors duration-150 ease-out ${
+          className={`grid min-h-11 min-w-11 place-items-center rounded-sm transition-colors duration-150 ease-out ${
             locale === code ? "bg-primary" : "hover:bg-surface"
           }`}
         >
-          <span aria-hidden>{LOCALE_FLAGS[code]}</span>
+          <img
+            src={LOCALE_FLAG_URLS[code]}
+            alt=""
+            aria-hidden
+            className="h-4 w-6 rounded-[2px] object-cover shadow-[0_0_0_1px_rgba(43,24,16,0.15)]"
+          />
         </button>
       ))}
     </div>

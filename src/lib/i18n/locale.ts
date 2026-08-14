@@ -10,8 +10,14 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   sq: "Shqip",
 };
 
-export const LOCALE_FLAGS: Record<Locale, string> = {
-  mk: "🇲🇰",
-  en: "🇬🇧",
-  sq: "🇦🇱",
+/**
+ * Emoji flags are unreliable across platforms (Windows in particular often
+ * falls back to plain "MK"/"GB"/"AL" text instead of rendering a flag glyph),
+ * so the switcher uses real flag images from flagcdn.com instead — same
+ * external-image pattern already used for the footer partner logos.
+ */
+export const LOCALE_FLAG_URLS: Record<Locale, string> = {
+  mk: "https://flagcdn.com/mk.svg",
+  en: "https://flagcdn.com/gb.svg",
+  sq: "https://flagcdn.com/al.svg",
 };
