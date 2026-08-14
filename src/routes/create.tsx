@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, type DragEvent } from "react";
+import { useMemo, useState, type DragEvent, type ReactNode } from "react";
 import { UploadCloud } from "lucide-react";
 import { CATEGORIES, MATERIALS, REGIONS, TECHNIQUES } from "@/lib/records";
+import { categoryLabel, materialLabel, regionLabel, techniqueLabel } from "@/lib/i18n/vocab";
 import { GoldHairline } from "@/components/Ornament";
+import { useI18n } from "@/lib/i18n/context";
 
 export const Route = createFileRoute("/create")({
   head: () => ({
@@ -24,8 +26,26 @@ export const Route = createFileRoute("/create")({
 });
 
 function CreateRecord() {
+  const { t, locale } = useI18n();
   const [fileName, setFileName] = useState<string | null>(null);
   const [dragging, setDragging] = useState(false);
+
+  const regionOptions = useMemo(
+    () => REGIONS.map((slug) => ({ value: slug, label: regionLabel(slug, locale) })),
+    [locale],
+  );
+  const categoryOptions = useMemo(
+    () => CATEGORIES.map((slug) => ({ value: slug, label: categoryLabel(slug, locale) })),
+    [locale],
+  );
+  const materialOptions = useMemo(
+    () => MATERIALS.map((slug) => ({ value: slug, label: materialLabel(slug, locale) })),
+    [locale],
+  );
+  const techniqueOptions = useMemo(
+    () => TECHNIQUES.map((slug) => ({ value: slug, label: techniqueLabel(slug, locale) })),
+    [locale],
+  );
 
   const onDrop = (event: DragEvent<HTMLLabelElement>) => {
     event.preventDefault();
@@ -37,26 +57,20 @@ function CreateRecord() {
   return (
     <div className="container-etno py-16 lg:py-24">
       <div className="max-w-3xl">
-        <p className="label-caps">Contribute</p>
-        <h1 className="mt-3 font-serif text-[40px] text-ink lg:text-[48px]">Create record</h1>
-        <p className="mt-4 text-[17px] text-ink-muted">
-          Metadata is stored alongside the image; embeddings are extracted automatically once the
-          record is saved.
-        </p>
+        <p className="label-caps">{t("create.eyebrow")}</p>
+        <h1 className="mt-3 font-serif text-[40px] text-ink lg:text-[48px]">{t("create.title")}</h1>
+        <p className="mt-4 text-[17px] text-ink-muted">{t("create.subtitle")}</p>
 
         <form
           onSubmit={(event) => event.preventDefault()}
           className="mt-8 space-y-8 rounded-xl border border-border bg-surface p-6 shadow-card lg:p-8"
         >
           <fieldset className="space-y-6">
-            <legend className="label-caps">Object</legend>
-            <Field
-              label="Title"
-              helper="A short descriptive name, e.g. “Women's chemise with shoulder embroidery”."
-            >
-              <input className={inputClass} placeholder="Title of the object" />
+            <legend className="label-caps">{t("create.legendObject")}</legend>
+            <Field label={t("field.title")} helper={t("create.titleHelper")}>
+              <input className={inputClass} placeholder={t("create.titlePlaceholder")} />
             </Field>
-            <Field label="Description" helper="Construction, condition, provenance and use.">
+            <Field label={t("field.description")} helper={t("create.descriptionHelper")}>
               <textarea rows={5} className={`${inputClass} resize-y`} />
             </Field>
           </fieldset>
@@ -64,19 +78,19 @@ function CreateRecord() {
           <GoldHairline />
 
           <fieldset className="space-y-6">
-            <legend className="label-caps">Classification</legend>
+            <legend className="label-caps">{t("create.legendClassification")}</legend>
             <div className="grid gap-6 sm:grid-cols-2">
-              <Field label="Region" helper="Regional tradition the object belongs to.">
-                <Select options={REGIONS} />
+              <Field label={t("field.region")} helper={t("create.regionHelper")}>
+                <Select placeholder={t("create.selectPlaceholder")} options={regionOptions} />
               </Field>
-              <Field label="Category" helper="Object type in the shared vocabulary.">
-                <Select options={CATEGORIES} />
+              <Field label={t("field.category")} helper={t("create.categoryHelper")}>
+                <Select placeholder={t("create.selectPlaceholder")} options={categoryOptions} />
               </Field>
-              <Field label="Material" helper="Primary fibre or thread.">
-                <Select options={MATERIALS} />
+              <Field label={t("field.material")} helper={t("create.materialHelper")}>
+                <Select placeholder={t("create.selectPlaceholder")} options={materialOptions} />
               </Field>
-              <Field label="Technique" helper="Dominant embroidery or weaving technique.">
-                <Select options={TECHNIQUES} />
+              <Field label={t("field.technique")} helper={t("create.techniqueHelper")}>
+                <Select placeholder={t("create.selectPlaceholder")} options={techniqueOptions} />
               </Field>
             </div>
           </fieldset>
@@ -84,7 +98,7 @@ function CreateRecord() {
           <GoldHairline />
 
           <fieldset className="space-y-6">
-            <legend className="label-caps">Image</legend>
+            <legend className="label-caps">{t("create.legendImage")}</legend>
             <label
               onDragOver={(event) => {
                 event.preventDefault();
@@ -97,12 +111,8 @@ function CreateRecord() {
               }`}
             >
               <UploadCloud className="size-6 text-gold" />
-              <span className="text-[15px] text-ink">
-                {fileName ?? "Drag an image here or click to upload"}
-              </span>
-              <span className="text-[13px] text-ink-muted">
-                JPG or PNG, minimum 1200px on the long edge
-              </span>
+              <span className="text-[15px] text-ink">{fileName ?? t("create.uploadPrompt")}</span>
+              <span className="text-[13px] text-ink-muted">{t("create.uploadHelper")}</span>
               <input
                 type="file"
                 accept="image/*"
@@ -117,13 +127,13 @@ function CreateRecord() {
               type="submit"
               className="inline-flex min-h-11 items-center rounded-sm bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors duration-150 ease-out hover:bg-primary-dark"
             >
-              Save record
+              {t("create.save")}
             </button>
             <button
               type="reset"
               className="inline-flex min-h-11 items-center rounded-sm border border-border px-6 py-3 text-ink-muted transition-colors duration-150 ease-out hover:border-gold hover:text-ink"
             >
-              Clear form
+              {t("create.clear")}
             </button>
           </div>
         </form>
@@ -142,7 +152,7 @@ function Field({
 }: {
   label: string;
   helper: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <label className="block">
@@ -153,16 +163,22 @@ function Field({
   );
 }
 
-function Select({ options }: { options: string[] }) {
+function Select({
+  placeholder,
+  options,
+}: {
+  placeholder: string;
+  options: { value: string; label: string }[];
+}) {
   return (
     <span className="relative block">
       <select className={`${inputClass} appearance-none pr-11`} defaultValue="">
         <option value="" disabled>
-          Select…
+          {placeholder}
         </option>
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

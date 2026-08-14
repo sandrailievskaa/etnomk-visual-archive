@@ -1,7 +1,10 @@
 import { Link } from "@tanstack/react-router";
 import type { EtnoRecord } from "@/lib/records";
+import { useLocalizedRecord } from "@/hooks/use-localized-record";
 
 export function RecordCard({ record }: { record: EtnoRecord }) {
+  const localized = useLocalizedRecord(record);
+
   return (
     <Link
       to="/records/$id"
@@ -11,7 +14,7 @@ export function RecordCard({ record }: { record: EtnoRecord }) {
       <div className="aspect-[4/5] overflow-hidden bg-surface-alt">
         <img
           src={record.image}
-          alt={record.title}
+          alt={localized.title}
           loading="lazy"
           width={800}
           height={1000}
@@ -21,13 +24,13 @@ export function RecordCard({ record }: { record: EtnoRecord }) {
       <div className="flex flex-1 flex-col gap-3 p-6">
         <div className="flex flex-wrap gap-2">
           <span className="rounded-sm bg-gold-light px-2 py-1 text-[13px] leading-none text-ink">
-            {record.region}
+            {localized.regionLabel}
           </span>
           <span className="rounded-sm border border-border px-2 py-1 text-[13px] leading-none text-ink-muted">
-            {record.category}
+            {localized.categoryLabel}
           </span>
         </div>
-        <h3 className="font-serif text-lg text-ink">{record.title}</h3>
+        <h3 className="font-serif text-lg text-ink">{localized.title}</h3>
         <p className="mt-auto text-[13px] tracking-[0.05em] text-ink-muted uppercase">
           {record.inventory}
         </p>

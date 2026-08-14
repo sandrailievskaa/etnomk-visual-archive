@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import heroImage from "@/assets/hero-embroidery.jpg";
+import { useI18n } from "@/lib/i18n/context";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/auth")({
 });
 
 function Auth() {
+  const { t } = useI18n();
   const [mode, setMode] = useState<"login" | "register">("login");
 
   return (
@@ -37,49 +39,55 @@ function Auth() {
         <div className="h-1 w-full bg-gold" />
         <div className="p-8">
           <h1 className="font-serif text-[28px] text-ink">
-            {mode === "login" ? "Sign in" : "Create an account"}
+            {mode === "login" ? t("auth.signInHeading") : t("auth.registerHeading")}
           </h1>
           <p className="mt-2 text-[15px] text-ink-muted">
-            {mode === "login"
-              ? "Access cataloguing and similarity search tools."
-              : "Register to contribute records to the archive."}
+            {mode === "login" ? t("auth.signInSubtitle") : t("auth.registerSubtitle")}
           </p>
 
           <form onSubmit={(event) => event.preventDefault()} className="mt-8 space-y-6">
             {mode === "register" && (
               <label className="block">
-                <span className="label-caps">Full name</span>
-                <input className={`${inputClass} mt-2`} placeholder="Name Surname" />
+                <span className="label-caps">{t("auth.fullName")}</span>
+                <input className={`${inputClass} mt-2`} placeholder={t("auth.namePlaceholder")} />
               </label>
             )}
             <label className="block">
-              <span className="label-caps">Email</span>
-              <input type="email" className={`${inputClass} mt-2`} placeholder="you@museum.mk" />
+              <span className="label-caps">{t("auth.email")}</span>
+              <input
+                type="email"
+                className={`${inputClass} mt-2`}
+                placeholder={t("auth.emailPlaceholder")}
+              />
             </label>
             <label className="block">
-              <span className="label-caps">Password</span>
-              <input type="password" className={`${inputClass} mt-2`} placeholder="••••••••" />
+              <span className="label-caps">{t("auth.password")}</span>
+              <input
+                type="password"
+                className={`${inputClass} mt-2`}
+                placeholder={t("auth.passwordPlaceholder")}
+              />
             </label>
             <button
               type="submit"
               className="min-h-11 w-full rounded-sm bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors duration-150 ease-out hover:bg-primary-dark"
             >
-              {mode === "login" ? "Sign in" : "Register"}
+              {mode === "login" ? t("auth.signInSubmit") : t("auth.registerSubmit")}
             </button>
           </form>
 
           <p className="mt-6 text-[15px] text-ink-muted">
-            {mode === "login" ? "No account yet?" : "Already registered?"}{" "}
+            {mode === "login" ? t("auth.noAccount") : t("auth.hasAccount")}{" "}
             <button
               type="button"
               onClick={() => setMode(mode === "login" ? "register" : "login")}
               className="font-medium text-primary underline-offset-4 hover:underline"
             >
-              {mode === "login" ? "Create one" : "Sign in"}
+              {mode === "login" ? t("auth.createOne") : t("auth.signInLink")}
             </button>
           </p>
           <Link to="/browse" className="mt-4 block text-[13px] text-ink-muted hover:text-ink">
-            Continue browsing without an account
+            {t("auth.continueBrowsing")}
           </Link>
         </div>
       </div>

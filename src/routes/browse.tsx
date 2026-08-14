@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { Search, SlidersHorizontal, X } from "lucide-react";
-import { CATEGORIES, RECORDS, REGIONS } from "@/lib/records";
+import { CATEGORIES, RECORDS, REGIONS, localize } from "@/lib/records";
+import { categoryLabel, regionLabel } from "@/lib/i18n/vocab";
 import { RecordCard, RecordCardSkeleton } from "@/components/RecordCard";
+import { useI18n } from "@/lib/i18n/context";
 
 export const Route = createFileRoute("/browse")({
   head: () => ({
@@ -24,6 +26,7 @@ export const Route = createFileRoute("/browse")({
 });
 
 function Browse() {
+  const { t, locale } = useI18n();
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState("");
   const [category, setCategory] = useState("");
@@ -36,6 +39,15 @@ function Browse() {
     return () => clearTimeout(timer);
   }, [query, region, category]);
 
+  const regionOptions = useMemo(
+    () => REGIONS.map((slug) => ({ value: slug, label: regionLabel(slug, locale) })),
+    [locale],
+  );
+  const categoryOptions = useMemo(
+    () => CATEGORIES.map((slug) => ({ value: slug, label: categoryLabel(slug, locale) })),
+    [locale],
+  );
+
   const results = useMemo(
     () =>
       RECORDS.filter(
@@ -43,17 +55,29 @@ function Browse() {
           (!region || record.region === region) &&
           (!category || record.category === category) &&
           (!query ||
-            `${record.title} ${record.description} ${record.inventory}`
+            `${localize(record.title, locale)} ${localize(record.description, locale)} ${record.inventory}`
               .toLowerCase()
               .includes(query.toLowerCase())),
       ),
-    [query, region, category],
+    [query, region, category, locale],
   );
 
   const filters = (
     <>
-      <Dropdown label="Region" value={region} onChange={setRegion} options={REGIONS} />
-      <Dropdown label="Category" value={category} onChange={setCategory} options={CATEGORIES} />
+      <Dropdown
+        label={t("field.region")}
+        allLabel={t("browse.allRegions")}
+        value={region}
+        onChange={setRegion}
+        options={regionOptions}
+      />
+      <Dropdown
+        label={t("field.category")}
+        allLabel={t("browse.allCategories")}
+        value={category}
+        onChange={setCategory}
+        options={categoryOptions}
+      />
       <button
         type="button"
         onClick={() => {
@@ -63,17 +87,17 @@ function Browse() {
         }}
         className="inline-flex min-h-11 items-center rounded-sm border border-border px-6 text-[15px] text-ink-muted transition-colors duration-150 ease-out hover:border-gold hover:text-ink"
       >
-        Reset
+        {t("browse.reset")}
       </button>
     </>
   );
 
   return (
     <div className="container-etno py-16 lg:py-24">
-      <p className="label-caps">Collection</p>
-      <h1 className="mt-3 font-serif text-[40px] text-ink lg:text-[48px]">Browse records</h1>
+      <p className="label-caps">{t("browse.eyebrow")}</p>
+      <h1 className="mt-3 font-serif text-[40px] text-ink lg:text-[48px]">{t("browse.title")}</h1>
       <p className="mt-4 max-w-xl text-[17px] text-ink-muted">
-        {RECORDS.length} catalogued objects from six regional traditions.
+        {t("browse.subtitle", { count: RECORDS.length })}
       </p>
 
       <div className="mt-8 flex flex-col gap-4 lg:flex-row lg:items-center">
@@ -82,7 +106,7 @@ function Browse() {
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search titles, descriptions, inventory numbers…"
+            placeholder={t("browse.searchPlaceholder")}
             className="min-h-12 w-full rounded-sm border-[1.5px] border-border bg-surface pr-4 pl-11 text-[15px] text-ink placeholder:text-ink-muted focus:border-gold focus:ring-2 focus:ring-gold/40 focus:outline-none"
           />
         </div>
@@ -92,7 +116,7 @@ function Browse() {
           onClick={() => setSheetOpen(true)}
           className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm border border-border px-6 text-[15px] text-ink lg:hidden"
         >
-          <SlidersHorizontal className="size-4" /> Filters
+          <SlidersHorizontal className="size-4" /> {t("browse.filters")}
         </button>
       </div>
 
@@ -103,10 +127,8 @@ function Browse() {
           results.map((record) => <RecordCard key={record.id} record={record} />)
         ) : (
           <div className="col-span-full rounded-lg border border-dashed border-border bg-surface-alt/60 px-6 py-16 text-center">
-            <h2 className="font-serif text-2xl text-ink">No records match those filters</h2>
-            <p className="mt-3 text-[15px] text-ink-muted">
-              Try a different region, or clear the search field.
-            </p>
+            <h2 className="font-serif text-2xl text-ink">{t("browse.emptyTitle")}</h2>
+            <p className="mt-3 text-[15px] text-ink-muted">{t("browse.emptyBody")}</p>
           </div>
         )}
       </div>
@@ -125,11 +147,11 @@ function Browse() {
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="label-caps">Filters</span>
+            <span className="label-caps">{t("browse.filters")}</span>
             <button
               type="button"
               onClick={() => setSheetOpen(false)}
-              aria-label="Close filters"
+              aria-label={t("browse.closeFilters")}
               className="grid size-11 place-items-center rounded-sm text-ink"
             >
               <X className="size-5" />
@@ -144,14 +166,16 @@ function Browse() {
 
 function Dropdown({
   label,
+  allLabel,
   value,
   onChange,
   options,
 }: {
   label: string;
+  allLabel: string;
   value: string;
   onChange: (value: string) => void;
-  options: string[];
+  options: { value: string; label: string }[];
 }) {
   return (
     <div className="relative">
@@ -161,10 +185,10 @@ function Dropdown({
         onChange={(event) => onChange(event.target.value)}
         className="min-h-12 w-full appearance-none rounded-sm border-[1.5px] border-border bg-surface py-3 pr-11 pl-4 text-[15px] text-ink focus:border-gold focus:ring-2 focus:ring-gold/40 focus:outline-none lg:w-52"
       >
-        <option value="">All {label.toLowerCase()}s</option>
+        <option value="">{allLabel}</option>
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

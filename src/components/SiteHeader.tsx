@@ -2,15 +2,19 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { MotifStrip } from "./Ornament";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useI18n } from "@/lib/i18n/context";
+import type { TranslationKey } from "@/lib/i18n/dictionary";
 
-const NAV = [
-  { to: "/", label: "Home" },
-  { to: "/browse", label: "Browse Records" },
-  { to: "/create", label: "Create Record" },
-  { to: "/admin", label: "Admin" },
+const NAV: { to: string; label: TranslationKey }[] = [
+  { to: "/", label: "nav.home" },
+  { to: "/browse", label: "nav.browse" },
+  { to: "/create", label: "nav.create" },
+  { to: "/admin", label: "nav.admin" },
 ];
 
 export function SiteHeader() {
+  const { t } = useI18n();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -45,7 +49,7 @@ export function SiteHeader() {
             <span className="font-serif text-xl font-semibold tracking-tight text-ink">
               EtnoMK
               <span className="ml-2 hidden text-[13px] font-normal tracking-[0.05em] text-ink-muted uppercase sm:inline">
-                Digital archive
+                {t("nav.tagline")}
               </span>
             </span>
           </Link>
@@ -60,7 +64,7 @@ export function SiteHeader() {
                   to={item.to}
                   className="group relative py-2 text-[15px] text-ink-muted transition-colors duration-150 ease-out hover:text-ink"
                 >
-                  <span className={active ? "font-medium text-ink" : ""}>{item.label}</span>
+                  <span className={active ? "font-medium text-ink" : ""}>{t(item.label)}</span>
                   <span
                     aria-hidden
                     className={`absolute -bottom-px left-0 h-0.5 bg-gold transition-[width] duration-200 ease-out ${
@@ -73,24 +77,25 @@ export function SiteHeader() {
           </nav>
 
           <div className="hidden items-center gap-6 lg:flex">
+            <LanguageSwitcher />
             <Link
               to="/auth"
               className="text-[15px] text-ink-muted transition-colors duration-150 ease-out hover:text-ink"
             >
-              Sign in
+              {t("nav.signIn")}
             </Link>
             <Link
               to="/create"
               className="rounded-sm bg-primary px-6 py-3 text-[15px] font-medium text-primary-foreground transition-colors duration-150 ease-out hover:bg-primary-dark"
             >
-              Add Record
+              {t("nav.addRecord")}
             </Link>
           </div>
 
           <button
             type="button"
             onClick={() => setOpen(true)}
-            aria-label="Open menu"
+            aria-label={t("nav.openMenu")}
             className="grid size-11 place-items-center rounded-sm border border-border text-ink transition-colors duration-150 ease-out hover:bg-surface-alt lg:hidden"
           >
             <Menu className="size-5" />
@@ -115,11 +120,11 @@ export function SiteHeader() {
           }`}
         >
           <div className="flex h-16 items-center justify-between border-b border-border px-6">
-            <span className="label-caps">Menu</span>
+            <span className="label-caps">{t("nav.menu")}</span>
             <button
               type="button"
               onClick={() => setOpen(false)}
-              aria-label="Close menu"
+              aria-label={t("nav.closeMenu")}
               className="grid size-11 place-items-center rounded-sm text-ink"
             >
               <X className="size-5" />
@@ -132,18 +137,19 @@ export function SiteHeader() {
                 to={item.to}
                 className="flex min-h-11 items-center border-b border-border/70 py-3 font-serif text-lg text-ink"
               >
-                {item.label}
+                {t(item.label)}
               </Link>
             ))}
             <Link to="/auth" className="flex min-h-11 items-center py-3 text-ink-muted">
-              Sign in
+              {t("nav.signIn")}
             </Link>
             <Link
               to="/create"
               className="mt-4 flex min-h-11 items-center justify-center rounded-sm bg-primary px-6 py-3 font-medium text-primary-foreground"
             >
-              Add Record
+              {t("nav.addRecord")}
             </Link>
+            <LanguageSwitcher className="mt-6 self-start" />
           </nav>
         </aside>
       </div>

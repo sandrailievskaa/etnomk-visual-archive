@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ScanSearch, Database, Layers } from "lucide-react";
 import heroImage from "@/assets/hero-embroidery.jpg";
-import { RECORDS } from "@/lib/records";
+import { RECORDS, localize, type EtnoRecord } from "@/lib/records";
 import { RecordCard } from "@/components/RecordCard";
 import { MotifDivider } from "@/components/Ornament";
+import { EmbroideryLoop } from "@/components/EmbroideryLoop";
+import { useI18n } from "@/lib/i18n/context";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,11 +28,24 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const { t } = useI18n();
   const featured = RECORDS.slice(0, 4);
+
+  const features = [
+    { icon: Database, title: t("home.feature1Title"), body: t("home.feature1Body") },
+    { icon: ScanSearch, title: t("home.feature2Title"), body: t("home.feature2Body") },
+    { icon: Layers, title: t("home.feature3Title"), body: t("home.feature3Body") },
+  ];
 
   return (
     <>
       <section className="relative overflow-hidden border-b border-border bg-background">
+        <div
+          aria-hidden
+          className="absolute inset-x-0 bottom-0 h-28 opacity-60 [mask-image:linear-gradient(to_top,black,transparent)] lg:h-36"
+        >
+          <EmbroideryLoop className="size-full" />
+        </div>
         <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
           <img
             src={heroImage}
@@ -44,26 +59,23 @@ function Home() {
         </div>
         <div className="container-etno relative grid gap-16 py-16 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:py-24">
           <div className="stitch-in max-w-xl">
-            <p className="label-caps">Digital heritage archive · North Macedonia</p>
+            <p className="label-caps">{t("home.eyebrow")}</p>
             <h1 className="mt-6 font-serif text-[40px] leading-[1.1] font-semibold text-ink lg:text-[48px]">
-              Every stitch, catalogued and searchable.
+              {t("home.title")}
             </h1>
-            <p className="mt-6 text-[17px] text-ink-muted">
-              EtnoMK documents folk costume, embroidery and woven textiles from across the
-              country — and lets researchers find related motifs by image, not by keyword.
-            </p>
+            <p className="mt-6 text-[17px] text-ink-muted">{t("home.description")}</p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link
                 to="/browse"
                 className="inline-flex min-h-11 items-center rounded-sm bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors duration-150 ease-out hover:bg-primary-dark"
               >
-                Browse the archive
+                {t("home.ctaBrowse")}
               </Link>
               <Link
                 to="/create"
                 className="inline-flex min-h-11 items-center rounded-sm border border-ink/20 px-6 py-3 font-medium text-ink transition-colors duration-150 ease-out hover:border-gold hover:text-primary"
               >
-                Contribute a record
+                {t("home.ctaContribute")}
               </Link>
             </div>
           </div>
@@ -83,23 +95,7 @@ function Home() {
 
       <section className="container-etno py-16 lg:py-24">
         <div className="grid gap-12 md:grid-cols-3">
-          {[
-            {
-              icon: Database,
-              title: "Structured cataloguing",
-              body: "Region, category, material and technique recorded against a shared vocabulary, so collections stay comparable across institutions.",
-            },
-            {
-              icon: ScanSearch,
-              title: "Search by image",
-              body: "DINOv2 embeddings turn each photograph into a vector; pgvector returns the nearest visual matches in the archive.",
-            },
-            {
-              icon: Layers,
-              title: "Patch-level motifs",
-              body: "Beyond whole-image search, patch embeddings isolate individual rosettes and borders for motif-level study.",
-            },
-          ].map(({ icon: Icon, title, body }) => (
+          {features.map(({ icon: Icon, title, body }) => (
             <article key={title}>
               <Icon className="size-6 text-gold" />
               <h2 className="mt-6 font-serif text-2xl text-ink">{title}</h2>
@@ -114,16 +110,16 @@ function Home() {
       <section className="container-etno py-16 lg:py-24">
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div>
-            <p className="label-caps">Recently digitised</p>
+            <p className="label-caps">{t("home.recentEyebrow")}</p>
             <h2 className="mt-3 font-serif text-[28px] text-ink lg:text-[32px]">
-              From the collection
+              {t("home.recentTitle")}
             </h2>
           </div>
           <Link
             to="/browse"
             className="inline-flex min-h-11 items-center gap-2 text-[15px] font-medium text-primary transition-colors duration-150 ease-out hover:text-primary-dark"
           >
-            All records <ArrowRight className="size-4" />
+            {t("home.allRecords")} <ArrowRight className="size-4" />
           </Link>
         </div>
         <div className="mt-8 grid gap-6 [grid-template-columns:repeat(auto-fill,minmax(280px,1fr))]">
@@ -136,19 +132,14 @@ function Home() {
   );
 }
 
-function MosaicImage({
-  record,
-  className,
-}: {
-  record: (typeof RECORDS)[number] | undefined;
-  className: string;
-}) {
+function MosaicImage({ record, className }: { record: EtnoRecord | undefined; className: string }) {
+  const { locale } = useI18n();
   if (!record) return null;
   return (
     <div className={`overflow-hidden border border-border bg-surface shadow-lift ${className}`}>
       <img
         src={record.image}
-        alt={record.title}
+        alt={localize(record.title, locale)}
         loading="lazy"
         className="size-full object-cover"
       />

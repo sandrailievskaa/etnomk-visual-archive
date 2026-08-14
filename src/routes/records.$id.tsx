@@ -4,6 +4,8 @@ import { ArrowLeft } from "lucide-react";
 import { getRecord } from "@/lib/records";
 import { GoldHairline } from "@/components/Ornament";
 import { SimilarModal } from "@/components/SimilarModal";
+import { useI18n } from "@/lib/i18n/context";
+import { useLocalizedRecord } from "@/hooks/use-localized-record";
 
 export const Route = createFileRoute("/records/$id")({
   loader: ({ params }) => {
@@ -13,15 +15,15 @@ export const Route = createFileRoute("/records/$id")({
   },
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.title ?? "Record"} — EtnoMK` },
+      { title: `${loaderData?.title.en ?? "Record"} — EtnoMK` },
       {
         name: "description",
-        content: loaderData?.description.slice(0, 155) ?? "Record from the EtnoMK archive.",
+        content: loaderData?.description.en.slice(0, 155) ?? "Record from the EtnoMK archive.",
       },
-      { property: "og:title", content: `${loaderData?.title ?? "Record"} — EtnoMK` },
+      { property: "og:title", content: `${loaderData?.title.en ?? "Record"} — EtnoMK` },
       {
         property: "og:description",
-        content: loaderData?.description.slice(0, 155) ?? "Record from the EtnoMK archive.",
+        content: loaderData?.description.en.slice(0, 155) ?? "Record from the EtnoMK archive.",
       },
     ],
   }),
@@ -30,15 +32,17 @@ export const Route = createFileRoute("/records/$id")({
 
 function RecordDetails() {
   const record = Route.useLoaderData();
+  const { t } = useI18n();
+  const localized = useLocalizedRecord(record);
   const [open, setOpen] = useState(false);
 
   const meta = [
-    { label: "Region", value: record.region },
-    { label: "Category", value: record.category },
-    { label: "Material", value: record.material },
-    { label: "Technique", value: record.technique },
-    { label: "Period", value: record.period },
-    { label: "Inventory no.", value: record.inventory },
+    { label: t("field.region"), value: localized.regionLabel },
+    { label: t("field.category"), value: localized.categoryLabel },
+    { label: t("field.material"), value: localized.materialLabel },
+    { label: t("field.technique"), value: localized.techniqueLabel },
+    { label: t("field.period"), value: localized.period },
+    { label: t("field.inventory"), value: record.inventory },
   ];
 
   return (
@@ -47,7 +51,7 @@ function RecordDetails() {
         <div className="rounded-lg border border-border bg-surface p-4 shadow-frame lg:sticky lg:top-32 lg:self-start">
           <img
             src={record.image}
-            alt={record.title}
+            alt={localized.title}
             width={800}
             height={1000}
             className="aspect-[4/5] w-full rounded-sm object-cover"
@@ -55,9 +59,9 @@ function RecordDetails() {
         </div>
 
         <div>
-          <p className="label-caps">{record.category}</p>
+          <p className="label-caps">{localized.categoryLabel}</p>
           <h1 className="mt-3 font-serif text-[40px] leading-tight text-ink lg:text-[48px]">
-            {record.title}
+            {localized.title}
           </h1>
 
           <dl className="mt-8 grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
@@ -71,8 +75,8 @@ function RecordDetails() {
 
           <GoldHairline className="my-8" />
 
-          <h2 className="font-serif text-2xl text-ink">Description</h2>
-          <p className="mt-4 text-[17px] text-ink-muted">{record.description}</p>
+          <h2 className="font-serif text-2xl text-ink">{t("field.description")}</h2>
+          <p className="mt-4 text-[17px] text-ink-muted">{localized.description}</p>
 
           <div className="mt-8 flex flex-wrap items-center gap-8">
             <button
@@ -80,13 +84,13 @@ function RecordDetails() {
               onClick={() => setOpen(true)}
               className="inline-flex min-h-11 items-center rounded-sm bg-primary px-6 py-3 font-medium text-primary-foreground transition-colors duration-150 ease-out hover:bg-primary-dark"
             >
-              Search similar
+              {t("recordPage.searchSimilar")}
             </button>
             <Link
               to="/browse"
               className="inline-flex min-h-11 items-center gap-2 text-[15px] text-ink-muted transition-colors duration-150 ease-out hover:text-ink"
             >
-              <ArrowLeft className="size-4" /> Back to records
+              <ArrowLeft className="size-4" /> {t("recordPage.backToRecords")}
             </Link>
           </div>
         </div>
