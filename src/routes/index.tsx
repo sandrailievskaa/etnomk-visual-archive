@@ -138,9 +138,10 @@ function MosaicImage({
   record,
   className,
 }: {
-  record: (typeof RECORDS)[number];
+  record: (typeof RECORDS)[number] | undefined;
   className: string;
 }) {
+  if (!record) return null;
   return (
     <div className={`overflow-hidden border border-border bg-surface shadow-lift ${className}`}>
       <img
