@@ -30,16 +30,18 @@ function Home() {
 
   return (
     <>
-      <section className="relative overflow-hidden border-b border-border">
-        <img
-          src={heroImage}
-          alt=""
-          aria-hidden
-          width={1920}
-          height={1088}
-          className="absolute inset-0 size-full object-cover object-left"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/10 via-background/70 to-background" />
+      <section className="relative overflow-hidden border-b border-border bg-background">
+        <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
+          <img
+            src={heroImage}
+            alt=""
+            aria-hidden
+            width={1920}
+            height={1088}
+            className="size-full scale-x-[-1] object-cover object-left"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/30 to-transparent" />
+        </div>
         <div className="container-etno relative grid gap-16 py-16 lg:grid-cols-[1.05fr_1fr] lg:items-center lg:py-24">
           <div className="stitch-in max-w-xl">
             <p className="label-caps">Digital heritage archive · North Macedonia</p>
@@ -138,9 +140,10 @@ function MosaicImage({
   record,
   className,
 }: {
-  record: (typeof RECORDS)[number];
+  record: (typeof RECORDS)[number] | undefined;
   className: string;
 }) {
+  if (!record) return null;
   return (
     <div className={`overflow-hidden border border-border bg-surface shadow-lift ${className}`}>
       <img

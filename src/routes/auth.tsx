@@ -17,7 +17,7 @@ export const Route = createFileRoute("/auth")({
       },
     ],
   }),
-  component: Auth;
+  component: Auth,
 });
 
 function Auth() {
