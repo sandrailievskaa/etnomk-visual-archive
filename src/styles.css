@@ -247,3 +247,42 @@
     opacity: 0.55;
   }
 }
+
+/*
+ * Rosette showcase motif — a single medallion that stitches itself in,
+ * holds, then softly fades before looping. Reduced-motion users get the
+ * finished rosette at full opacity, no animation.
+ */
+@keyframes rosette-stitch {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  55%,
+  85% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+.rosette-stitch {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  opacity: 0;
+  animation: rosette-stitch 4s var(--ease-curated) infinite both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rosette-stitch {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}

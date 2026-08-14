@@ -45,6 +45,7 @@ const en = {
   "home.recentEyebrow": "Recently digitised",
   "home.recentTitle": "From the collection",
   "home.allRecords": "All records",
+  "home.showcaseCaption": "Centuries of stitched memory, now searchable by eye.",
 
   "browse.eyebrow": "Collection",
   "browse.title": "Browse records",
@@ -182,6 +183,7 @@ const mk: Record<TranslationKey, string> = {
   "home.recentEyebrow": "Неодамна дигитализирано",
   "home.recentTitle": "Од колекцијата",
   "home.allRecords": "Сите записи",
+  "home.showcaseCaption": "Векови на извезено сеќавање, сега пребарливо со поглед.",
 
   "browse.eyebrow": "Колекција",
   "browse.title": "Разгледај записи",
@@ -317,6 +319,7 @@ const sq: Record<TranslationKey, string> = {
   "home.recentEyebrow": "Digjitalizuar së fundmi",
   "home.recentTitle": "Nga koleksioni",
   "home.allRecords": "Të gjitha regjistrimet",
+  "home.showcaseCaption": "Shekuj kujtese të qëndisur, tani e kërkueshme me sy.",
 
   "browse.eyebrow": "Koleksioni",
   "browse.title": "Shfleto regjistrimet",

@@ -5,6 +5,7 @@ import { RECORDS, localize, type EtnoRecord } from "@/lib/records";
 import { RecordCard } from "@/components/RecordCard";
 import { MotifDivider } from "@/components/Ornament";
 import { EmbroideryLoop } from "@/components/EmbroideryLoop";
+import { EmbroideryShowcase } from "@/components/EmbroideryShowcase";
 import { useI18n } from "@/lib/i18n/context";
 
 export const Route = createFileRoute("/")({
@@ -92,6 +93,8 @@ function Home() {
           </div>
         </div>
       </section>
+
+      <EmbroideryShowcase />
 
       <section className="container-etno py-16 lg:py-24">
         <div className="grid gap-12 md:grid-cols-3">
