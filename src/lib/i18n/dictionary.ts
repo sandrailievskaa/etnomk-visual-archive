@@ -51,6 +51,27 @@ const en = {
   "home.videoLabelWindow": "Woman embroidering fabric by a window",
   "home.videoLabelGenerations": "Three generations of women embroidering together",
   "home.videoLabelMuseum": "Embroidered costume glowing in museum light",
+  "home.mapEyebrow": "Research context",
+  "home.mapTitle": "Where the Archive Fits",
+  "home.mapIntro":
+    "Eleven Balkan institutions hold comparable embroidery and costume collections — most without a searchable online catalogue. EtnoMK sits in that gap.",
+  "home.mapLegendRed": "No searchable catalog",
+  "home.mapLegendAmber": "Partial digital presence",
+  "home.mapLegendGreen": "Publicly documented / searchable",
+  "home.mapLegendGrey": "Currently closed",
+  "home.mapPopupHoldings": "Holdings",
+  "home.mapPopupAccess": "Access",
+  "home.mapAggregatorsTitle": "Pan-European aggregators",
+  "home.mapAggregatorsIntro":
+    "Platforms that index heritage collections across institutions, rather than holding them directly:",
+  "home.aggregatorEuropeana":
+    "Europeana — the EU's aggregator for digitised cultural heritage from museums and libraries across Europe.",
+  "home.aggregatorWikimedia":
+    "Wikimedia Commons — a free, community-maintained media repository, widely used to host public-domain heritage images.",
+  "home.aggregatorGoogleArts":
+    "Google Arts & Culture — a platform hosting high-resolution exhibits and partner-museum collections.",
+  "home.aggregatorWorldcat":
+    "WorldCat — a union catalogue aggregating library holdings worldwide, including museum and university libraries.",
 
   "browse.eyebrow": "Collection",
   "browse.title": "Browse records",
@@ -194,6 +215,27 @@ const mk: Record<TranslationKey, string> = {
   "home.videoLabelWindow": "Жена везе ткаенина крај прозорец",
   "home.videoLabelGenerations": "Три генерации жени везат заедно",
   "home.videoLabelMuseum": "Извезена носија свети во музејско осветлување",
+  "home.mapEyebrow": "Истражувачки контекст",
+  "home.mapTitle": "Каде се вклопува архивата",
+  "home.mapIntro":
+    "Единаесет балкански институции чуваат споредливи колекции на вез и носии — повеќето без пребарлив онлајн каталог. EtnoMK се вклопува во тој простор.",
+  "home.mapLegendRed": "Нема пребарлив каталог",
+  "home.mapLegendAmber": "Делумно дигитално присуство",
+  "home.mapLegendGreen": "Јавно документирано / пребарливо",
+  "home.mapLegendGrey": "Моментално затворено",
+  "home.mapPopupHoldings": "Фонд",
+  "home.mapPopupAccess": "Пристап",
+  "home.mapAggregatorsTitle": "Паневропски агрегатори",
+  "home.mapAggregatorsIntro":
+    "Платформи што индексираат колекции на наследство низ институции, наместо самите да ги чуваат:",
+  "home.aggregatorEuropeana":
+    "Europeana — агрегатор на ЕУ за дигитализирано културно наследство од музеи и библиотеки низ Европа.",
+  "home.aggregatorWikimedia":
+    "Wikimedia Commons — бесплатно медиумско складиште одржувано од заедницата, често користено за слики од јавен домен поврзани со наследство.",
+  "home.aggregatorGoogleArts":
+    "Google Arts & Culture — платформа што нуди изложби во високa резолуција и колекции на партнерски музеи.",
+  "home.aggregatorWorldcat":
+    "WorldCat — заеднички каталог што агрегира библиотечни фондови ширум светот, вклучувајќи музејски и универзитетски библиотеки.",
 
   "browse.eyebrow": "Колекција",
   "browse.title": "Разгледај записи",
@@ -335,6 +377,27 @@ const sq: Record<TranslationKey, string> = {
   "home.videoLabelWindow": "Grua duke qëndisur pëlhurë pranë dritares",
   "home.videoLabelGenerations": "Tre breza grash duke qëndisur së bashku",
   "home.videoLabelMuseum": "Veshje e qëndisur që shndrit nën dritën e muzeut",
+  "home.mapEyebrow": "Konteksti kërkimor",
+  "home.mapTitle": "Ku përshtatet arkivi",
+  "home.mapIntro":
+    "Njëmbëdhjetë institucione ballkanike ruajnë koleksione të krahasueshme qëndisjesh dhe veshjesh — shumica pa katalog të kërkueshëm në internet. EtnoMK përshtatet në atë hapësirë.",
+  "home.mapLegendRed": "Pa katalog të kërkueshëm",
+  "home.mapLegendAmber": "Prani e pjesshme digjitale",
+  "home.mapLegendGreen": "E dokumentuar publikisht / e kërkueshme",
+  "home.mapLegendGrey": "Aktualisht mbyllur",
+  "home.mapPopupHoldings": "Fondi",
+  "home.mapPopupAccess": "Qasja",
+  "home.mapAggregatorsTitle": "Agregatorë paneuropianë",
+  "home.mapAggregatorsIntro":
+    "Platforma që indeksojnë koleksione trashëgimie nëpër institucione, në vend që t'i mbajnë ato vetë:",
+  "home.aggregatorEuropeana":
+    "Europeana — agregatori i BE-së për trashëgiminë kulturore të digjitalizuar nga muzetë dhe bibliotekat në të gjithë Evropën.",
+  "home.aggregatorWikimedia":
+    "Wikimedia Commons — një depo mediash falas, e mirëmbajtur nga komuniteti, e përdorur gjerësisht për imazhe trashëgimie në domenin publik.",
+  "home.aggregatorGoogleArts":
+    "Google Arts & Culture — një platformë që pret ekspozita me rezolucion të lartë dhe koleksione të muzeve partnere.",
+  "home.aggregatorWorldcat":
+    "WorldCat — një katalog i përbashkët që agregon fondet e bibliotekave në mbarë botën, përfshirë biblioteka muzeale dhe universitare.",
 
   "browse.eyebrow": "Koleksioni",
   "browse.title": "Shfleto regjistrimet",

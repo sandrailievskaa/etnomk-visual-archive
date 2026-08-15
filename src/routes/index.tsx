@@ -7,7 +7,16 @@ import { MotifDivider } from "@/components/Ornament";
 import { EmbroideryLoop } from "@/components/EmbroideryLoop";
 import { EmbroideryShowcase } from "@/components/EmbroideryShowcase";
 import { VideoCarousel } from "@/components/VideoCarousel";
+import { InstitutionsMap } from "@/components/InstitutionsMap";
 import { useI18n } from "@/lib/i18n/context";
+import type { TranslationKey } from "@/lib/i18n/dictionary";
+
+const AGGREGATOR_KEYS: TranslationKey[] = [
+  "home.aggregatorEuropeana",
+  "home.aggregatorWikimedia",
+  "home.aggregatorGoogleArts",
+  "home.aggregatorWorldcat",
+];
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -132,6 +141,35 @@ function Home() {
           {featured.map((record) => (
             <RecordCard key={record.id} record={record} />
           ))}
+        </div>
+      </section>
+
+      <MotifDivider className="container-etno" />
+
+      <section className="container-etno py-16 lg:py-24">
+        <p className="label-caps">{t("home.mapEyebrow")}</p>
+        <h2 className="mt-3 max-w-2xl font-serif text-[28px] text-ink lg:text-[32px]">
+          {t("home.mapTitle")}
+        </h2>
+        <p className="mt-4 max-w-2xl text-[15px] text-ink-muted">{t("home.mapIntro")}</p>
+
+        <InstitutionsMap className="mt-8" />
+
+        <div className="mt-12 border-t border-border pt-8">
+          <p className="label-caps">{t("home.mapAggregatorsTitle")}</p>
+          <p className="mt-3 max-w-2xl text-[15px] text-ink-muted">
+            {t("home.mapAggregatorsIntro")}
+          </p>
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+            {AGGREGATOR_KEYS.map((key) => (
+              <li
+                key={key}
+                className="rounded-lg border border-border bg-surface p-4 text-[14px] text-ink-muted shadow-card"
+              >
+                {t(key)}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </>
