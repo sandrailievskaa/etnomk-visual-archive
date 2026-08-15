@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { HelpWidget } from "@/components/HelpWidget";
 import { I18nProvider, useI18n } from "@/lib/i18n/context";
 
 function NotFoundComponent() {
@@ -141,6 +142,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <SiteFooter />
+        <HelpWidget />
       </div>
     </QueryClientProvider>
   );

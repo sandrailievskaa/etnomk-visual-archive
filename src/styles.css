@@ -314,3 +314,26 @@
 .leaflet-popup-close-button {
   color: var(--color-ink-muted) !important;
 }
+
+/*
+ * Faint cross-stitch texture behind the help-chat conversation. CSS
+ * custom properties don't resolve inside an external/data-URI SVG used
+ * as a background-image, so chat-pattern-tile.svg is hardcoded to the
+ * real token hex values rather than using var() like the inline
+ * components do — the ::before keeps it below message content at low
+ * opacity instead of fading the messages themselves.
+ */
+.chat-pattern-bg {
+  position: relative;
+}
+
+.chat-pattern-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("/chat-pattern-tile.svg");
+  background-repeat: repeat;
+  background-size: 24px 24px;
+  opacity: 0.08;
+  pointer-events: none;
+}

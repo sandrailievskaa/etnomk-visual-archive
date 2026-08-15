@@ -155,6 +155,31 @@ const en = {
   "modal.regionHint": "Region hint: {region}",
   "modal.uploadHelper": "JPG or PNG, up to 12 MB",
 
+  "chat.title": "Ask EtnoMK",
+  "chat.subtitle": "Quick answers, no typing needed",
+  "chat.openLabel": "Open help chat",
+  "chat.closeLabel": "Close help chat",
+  "chat.startPrompt": "What would you like to know?",
+  "chat.restart": "Ask another question",
+  "chat.topic.whatIsEtnomk.question": "What is EtnoMK?",
+  "chat.topic.whatIsEtnomk.answer":
+    "EtnoMK is a digital archive of Macedonian folk costume, embroidery and woven textiles. It catalogues objects by region, category, material and technique, and lets you search for similar pieces by image instead of keywords.",
+  "chat.topic.howSimilarity.question": "How does visual similarity search work?",
+  "chat.topic.howSimilarity.answer":
+    "Each photo is turned into a numeric vector using a model called DINOv2, which learns visual patterns without needing labelled data. Similar-looking objects end up with similar vectors, and pgvector — a PostgreSQL extension — finds the closest matches instantly.",
+  "chat.topic.howContribute.question": "How do I contribute a record?",
+  "chat.topic.howContribute.answer":
+    "Open Create Record from the menu, fill in the title, description, region, category, material and technique, then drag in a photo. Embeddings are generated automatically once you save — no technical steps needed on your end.",
+  "chat.topic.patchLevel.question": "What does 'patch-level' search mean?",
+  "chat.topic.patchLevel.answer":
+    "Beyond comparing whole photos, EtnoMK also embeds small patches — like a single rosette or a border pattern — separately. That lets researchers find a specific motif reused across different objects, not just visually similar pieces overall.",
+  "chat.topic.whoSupports.question": "Who supports this project?",
+  "chat.topic.whoSupports.answer":
+    "EtnoMK is supported by THREAD, an EU Creative Europe project on embroidery digitisation, and Vezilka, North Macedonia's national AI Factory initiative. Both are credited in the footer.",
+  "chat.topic.browseArchive.question": "How do I browse the collection?",
+  "chat.topic.browseArchive.answer":
+    "Open Browse Records from the menu. You can filter by region or category, or search titles, descriptions and inventory numbers directly.",
+
   "notFound.heading": "Page not found",
   "notFound.body": "The page you're looking for doesn't exist or has been moved.",
   "notFound.goHome": "Go home",
@@ -317,6 +342,31 @@ const mk: Record<TranslationKey, string> = {
   "modal.tabUpload": "Прикачи слика",
   "modal.regionHint": "Насока по регион: {region}",
   "modal.uploadHelper": "JPG или PNG, до 12 MB",
+
+  "chat.title": "Прашај EtnoMK",
+  "chat.subtitle": "Брзи одговори, без пишување",
+  "chat.openLabel": "Отвори помош",
+  "chat.closeLabel": "Затвори помош",
+  "chat.startPrompt": "Што сакате да дознаете?",
+  "chat.restart": "Прашај нешто друго",
+  "chat.topic.whatIsEtnomk.question": "Што е EtnoMK?",
+  "chat.topic.whatIsEtnomk.answer":
+    "EtnoMK е дигитална архива на македонска народна носија, вез и ткаени текстили. Ги каталогизира предметите по регион, категорија, материјал и техника, и овозможува пребарување слични парчиња по слика, наместо по клучни зборови.",
+  "chat.topic.howSimilarity.question": "Како функционира пребарувањето по визуелна сличност?",
+  "chat.topic.howSimilarity.answer":
+    "Секоја фотографија се претвора во нумерички вектор со модел наречен DINOv2, кој учи визуелни обрасци без потреба од означени податоци. Слично изгледаните предмети добиваат слични вектори, а pgvector — додаток за PostgreSQL — веднаш ги наоѓа најблиските совпаѓања.",
+  "chat.topic.howContribute.question": "Како да придонесам запис?",
+  "chat.topic.howContribute.answer":
+    "Отворете „Креирај запис“ од менито, пополнете наслов, опис, регион, категорија, материјал и техника, па довлечете фотографија. Вградувањата се генерираат автоматски откако ќе зачувате — нема технички чекори од ваша страна.",
+  "chat.topic.patchLevel.question": "Што значи пребарување на ниво на исечок?",
+  "chat.topic.patchLevel.answer":
+    "Покрај споредбата на цели фотографии, EtnoMK одделно вградува и мали исечоци — на пример една розета или бордура. Тоа им овозможува на истражувачите да пронајдат конкретен мотив повторен на различни предмети, не само визуелно слични парчиња општо.",
+  "chat.topic.whoSupports.question": "Кој го поддржува проектот?",
+  "chat.topic.whoSupports.answer":
+    "EtnoMK е поддржан од THREAD, ЕУ Creative Europe проект за дигитализација на вез, и Vezilka, националната иницијатива AI Factory на Северна Македонија. И двата се наведени во футерот.",
+  "chat.topic.browseArchive.question": "Како да ја разгледам колекцијата?",
+  "chat.topic.browseArchive.answer":
+    "Отворете „Разгледај записи“ од менито. Можете да филтрирате по регион или категорија, или директно да пребарувате наслови, описи и инвентарни броеви.",
 
   "notFound.heading": "Страницата не е пронајдена",
   "notFound.body": "Страницата што ја барате не постои или е преместена.",
@@ -481,6 +531,31 @@ const sq: Record<TranslationKey, string> = {
   "modal.tabUpload": "Ngarko imazh",
   "modal.regionHint": "Sugjerim rajoni: {region}",
   "modal.uploadHelper": "JPG ose PNG, deri në 12 MB",
+
+  "chat.title": "Pyet EtnoMK",
+  "chat.subtitle": "Përgjigje të shpejta, pa shtypur",
+  "chat.openLabel": "Hap bisedën e ndihmës",
+  "chat.closeLabel": "Mbyll bisedën e ndihmës",
+  "chat.startPrompt": "Çfarë do të dëshironit të dini?",
+  "chat.restart": "Pyet diçka tjetër",
+  "chat.topic.whatIsEtnomk.question": "Çfarë është EtnoMK?",
+  "chat.topic.whatIsEtnomk.answer":
+    "EtnoMK është një arkiv digjital i veshjeve popullore, qëndisjeve dhe tekstileve të endura maqedonase. I katalogon objektet sipas rajonit, kategorisë, materialit dhe teknikës, dhe lejon kërkimin e pjesëve të ngjashme me imazh, në vend të fjalëve kyçe.",
+  "chat.topic.howSimilarity.question": "Si funksionon kërkimi sipas ngjashmërisë vizuale?",
+  "chat.topic.howSimilarity.answer":
+    "Çdo foto shndërrohet në një vektor numerik me një model të quajtur DINOv2, i cili mëson modele vizuale pa pasur nevojë për të dhëna të etiketuara. Objektet me pamje të ngjashme përfundojnë me vektorë të ngjashëm, dhe pgvector — një shtesë e PostgreSQL — i gjen menjëherë përputhjet më të afërta.",
+  "chat.topic.howContribute.question": "Si të kontribuoj një regjistrim?",
+  "chat.topic.howContribute.answer":
+    "Hapni „Krijo regjistrim“ nga menyja, plotësoni titullin, përshkrimin, rajonin, kategorinë, materialin dhe teknikën, pastaj tërhiqni një fotografi. Trupëzimet gjenerohen automatikisht pasi të ruani — nuk ka hapa teknikë nga ana juaj.",
+  "chat.topic.patchLevel.question": "Çfarë do të thotë kërkimi 'në nivel fragmenti'?",
+  "chat.topic.patchLevel.answer":
+    "Përtej krahasimit të fotografive të plota, EtnoMK gjithashtu trupëzon veç e veç fragmente të vogla — si një rozetë e vetme ose një motiv kufiri. Kjo u mundëson studiuesve të gjejnë një motiv specifik të përsëritur nëpër objekte të ndryshme, jo vetëm pjesë vizualisht të ngjashme në përgjithësi.",
+  "chat.topic.whoSupports.question": "Kush e mbështet këtë projekt?",
+  "chat.topic.whoSupports.answer":
+    "EtnoMK mbështetet nga THREAD, një projekt i BE-së Creative Europe për digjitalizimin e qëndisjeve, dhe Vezilka, iniciativa kombëtare AI Factory e Maqedonisë së Veriut. Të dyja janë të kredituara në fund të faqes.",
+  "chat.topic.browseArchive.question": "Si ta shfletoj koleksionin?",
+  "chat.topic.browseArchive.answer":
+    "Hapni „Shfleto regjistrimet“ nga menyja. Mund të filtroni sipas rajonit ose kategorisë, ose të kërkoni drejtpërdrejt tituj, përshkrime dhe numra inventari.",
 
   "notFound.heading": "Faqja nuk u gjet",
   "notFound.body": "Faqja që kërkoni nuk ekziston ose është zhvendosur.",
