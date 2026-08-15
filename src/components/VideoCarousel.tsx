@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { Pause, Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/lib/i18n/context";
 import type { TranslationKey } from "@/lib/i18n/dictionary";
 
@@ -32,21 +31,36 @@ const SLIDES: Slide[] = [
 ];
 
 const AUTO_ADVANCE_MS = 7000;
+const TRANSITION_MS = 1000;
 const TOTAL = SLIDES.length;
 
 export function VideoCarousel({ className = "" }: { className?: string }) {
   const { t } = useI18n();
   const [active, setActive] = useState(0);
-  const [autoAdvance, setAutoAdvance] = useState(true);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   const goTo = (index: number) => setActive(((index % TOTAL) + TOTAL) % TOTAL);
 
-  // Self-rotating; always pausable via the control at the bottom.
+  // The <video> for the "next" slide is mounted ahead of time (to preload),
+  // but toggling the `autoplay` attribute on an already-mounted element
+  // doesn't reliably (re)start playback in most browsers — so switching
+  // slides has to imperatively play the new one and pause the old one.
   useEffect(() => {
-    if (!autoAdvance) return;
+    videoRefs.current.forEach((video, index) => {
+      if (!video) return;
+      if (index === active) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, [active]);
+
+  useEffect(() => {
     const timer = setInterval(() => setActive((a) => (a + 1) % TOTAL), AUTO_ADVANCE_MS);
     return () => clearInterval(timer);
-  }, [autoAdvance]);
+  }, []);
 
   return (
     <section aria-label={t("home.videoTitle")} className={`bg-ink ${className}`}>
@@ -62,15 +76,18 @@ export function VideoCarousel({ className = "" }: { className?: string }) {
             <div
               key={slide.id}
               aria-hidden={!isActive}
-              className={`absolute inset-0 transition-opacity duration-250 ease-in-out ${
+              style={{ transitionDuration: `${TRANSITION_MS}ms` }}
+              className={`absolute inset-0 transition-opacity ease-in-out ${
                 isActive ? "opacity-100" : "pointer-events-none opacity-0"
               }`}
             >
               {shouldLoad ? (
                 <video
+                  ref={(el) => {
+                    videoRefs.current[index] = el;
+                  }}
                   className="size-full object-cover"
                   poster={slide.poster}
-                  autoPlay={isActive}
                   muted
                   loop
                   playsInline
@@ -91,33 +108,23 @@ export function VideoCarousel({ className = "" }: { className?: string }) {
           );
         })}
 
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-6 bg-gradient-to-t from-[rgba(43,24,16,0.55)] to-transparent px-6 py-5">
-          <div className="flex items-center gap-2">
-            {SLIDES.map((slide, index) => (
-              <button
-                key={slide.id}
-                type="button"
-                onClick={() => goTo(index)}
-                aria-label={t("home.videoGoToSlide", { index: index + 1 })}
-                aria-current={index === active}
-                className="grid size-8 place-items-center"
-              >
-                <span
-                  className={`block rounded-full transition-all duration-200 ease-out ${
-                    index === active ? "size-2.5 bg-gold" : "size-2 bg-white/50 hover:bg-white/80"
-                  }`}
-                />
-              </button>
-            ))}
-          </div>
-          <button
-            type="button"
-            onClick={() => setAutoAdvance((value) => !value)}
-            aria-label={t(autoAdvance ? "home.videoPause" : "home.videoPlay")}
-            className="grid size-8 place-items-center rounded-full text-white/80 transition-colors duration-150 ease-out hover:text-white"
-          >
-            {autoAdvance ? <Pause className="size-4" /> : <Play className="size-4" />}
-          </button>
+        <div className="absolute inset-x-0 bottom-0 flex items-center justify-center gap-2 bg-gradient-to-t from-[rgba(43,24,16,0.55)] to-transparent px-6 py-5">
+          {SLIDES.map((slide, index) => (
+            <button
+              key={slide.id}
+              type="button"
+              onClick={() => goTo(index)}
+              aria-label={t("home.videoGoToSlide", { index: index + 1 })}
+              aria-current={index === active}
+              className="grid size-8 place-items-center"
+            >
+              <span
+                className={`block rounded-full transition-all duration-200 ease-out ${
+                  index === active ? "size-2.5 bg-gold" : "size-2 bg-white/50 hover:bg-white/80"
+                }`}
+              />
+            </button>
+          ))}
         </div>
       </div>
     </section>
