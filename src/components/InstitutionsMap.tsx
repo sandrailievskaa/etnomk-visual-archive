@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
-import L from "leaflet";
+import type * as ReactLeaflet from "react-leaflet";
+import type * as LeafletNS from "leaflet";
 import "leaflet/dist/leaflet.css";
 import institutionsData from "@/data/institutions.json";
 import { useI18n } from "@/lib/i18n/context";
@@ -42,7 +42,7 @@ const STATUS_LEGEND_KEYS: Record<InstitutionStatus, TranslationKey> = {
 
 const STATUS_ORDER: InstitutionStatus[] = ["red", "amber", "green", "grey"];
 
-function markerIcon(status: InstitutionStatus) {
+function markerIcon(L: typeof LeafletNS, status: InstitutionStatus) {
   return L.divIcon({
     className: "",
     html: `<span style="display:block;width:16px;height:16px;border-radius:9999px;background:${STATUS_COLORS[status]};border:2px solid #FAF6EF;box-shadow:0 1px 3px rgba(43,24,16,0.4);"></span>`,
@@ -52,12 +52,27 @@ function markerIcon(status: InstitutionStatus) {
   });
 }
 
+type LoadedLeaflet = {
+  L: typeof LeafletNS;
+  RL: typeof ReactLeaflet;
+};
+
 export function InstitutionsMap({ className = "" }: { className?: string }) {
   const { t } = useI18n();
-  // Leaflet touches window/document at import time, so the map itself is
-  // only ever rendered after client-side mount — never during SSR.
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // leaflet reads `window` at module-evaluation time, which crashes SSR even
+  // if rendering is gated — so the modules themselves are only ever
+  // imported client-side, inside this effect, never at the top of the file.
+  const [leaflet, setLeaflet] = useState<LoadedLeaflet | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([import("leaflet"), import("react-leaflet")]).then(([leafletMod, RL]) => {
+      if (!cancelled) setLeaflet({ L: leafletMod.default, RL });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className={`relative ${className}`}>
@@ -65,24 +80,24 @@ export function InstitutionsMap({ className = "" }: { className?: string }) {
         style={{ height: 420 }}
         className="overflow-hidden rounded-xl border border-border shadow-frame"
       >
-        {mounted ? (
-          <MapContainer
+        {leaflet ? (
+          <leaflet.RL.MapContainer
             center={[42.5, 21.5]}
             zoom={5}
             scrollWheelZoom={false}
             className="size-full"
           >
-            <TileLayer
+            <leaflet.RL.TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {institutions.map((institution) => (
-              <Marker
+              <leaflet.RL.Marker
                 key={institution.id}
                 position={[institution.lat, institution.lng]}
-                icon={markerIcon(institution.status)}
+                icon={markerIcon(leaflet.L, institution.status)}
               >
-                <Popup>
+                <leaflet.RL.Popup>
                   <div className="min-w-[220px]">
                     <p className="font-serif text-base font-semibold text-ink">
                       {institution.name}
@@ -101,10 +116,10 @@ export function InstitutionsMap({ className = "" }: { className?: string }) {
                       </div>
                     </div>
                   </div>
-                </Popup>
-              </Marker>
+                </leaflet.RL.Popup>
+              </leaflet.RL.Marker>
             ))}
-          </MapContainer>
+          </leaflet.RL.MapContainer>
         ) : (
           <div className="skeleton-thread size-full" />
         )}
