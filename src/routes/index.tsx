@@ -68,7 +68,7 @@ function Home() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/30 to-transparent" />
         </div>
-        <div className="container-etno relative grid gap-16 pt-6 pb-16 lg:grid-cols-[1.05fr_1fr] lg:items-start lg:pt-20 lg:pb-24">
+        <div className="container-etno relative grid gap-16 pt-6 pb-16 lg:grid-cols-[1.05fr_1fr] lg:items-start lg:pt-28 lg:pb-24">
           <div className="stitch-in max-w-xl">
             <p className="label-caps">{t("home.eyebrow")}</p>
             <h1 className="mt-6 font-serif text-[40px] leading-[1.1] font-semibold text-ink lg:text-[48px]">
