@@ -64,7 +64,7 @@ export function VideoCarousel({ className = "" }: { className?: string }) {
 
   return (
     <section aria-label={t("home.videoTitle")} className={`bg-ink ${className}`}>
-      <div className="relative aspect-[2/1] w-full">
+      <div className="relative aspect-[21/9] w-full">
         {SLIDES.map((slide, index) => {
           const isActive = index === active;
           // Only the active slide and the one it might advance to are ever
@@ -86,7 +86,7 @@ export function VideoCarousel({ className = "" }: { className?: string }) {
                   ref={(el) => {
                     videoRefs.current[index] = el;
                   }}
-                  className="size-full object-contain"
+                  className="size-full object-cover"
                   poster={slide.poster}
                   muted
                   loop
@@ -101,7 +101,7 @@ export function VideoCarousel({ className = "" }: { className?: string }) {
                   src={slide.poster}
                   alt={t(slide.labelKey)}
                   loading="lazy"
-                  className="size-full object-contain"
+                  className="size-full object-cover"
                 />
               )}
             </div>
